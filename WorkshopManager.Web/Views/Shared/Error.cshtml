@@ -1,4 +1,14 @@
-﻿@model ErrorViewModel
+﻿@model WorkshopManager.Web.ViewModels.ErrorViewModel
+
+namespace WorkshopManager.Web.ViewModels
+{
+    public class ErrorViewModel
+    {
+        public string? RequestId { get; set; }
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    }
+}
+
 @{
     ViewData["Title"] = "Error";
 }
