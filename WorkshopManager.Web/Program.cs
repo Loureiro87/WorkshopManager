@@ -1,7 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using WorkshopManager.Infrastructure.Data;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+//Add service to the EF and BBDD
+builder.Services.AddDbContext<WorkshopDbContext>(options =>
+      options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 var app = builder.Build();
 
