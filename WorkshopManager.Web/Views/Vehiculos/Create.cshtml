@@ -1,0 +1,39 @@
+﻿@model WorkshopManager.Web.ViewModels.VehiculoCreateViewModel
+
+<h1>Crear vehículo</h1>
+
+<div asp-validation-summary="All" style="color:red"></div>
+<form asp-action="Create" method="post">
+    <div>
+        <label>Marca</label><br />
+        <input asp-for="Marca" />
+        <span asp-validation-for="Marca" style="color:red"></span>
+    </div>
+
+    <div>
+        <label>Modelo</label><br />
+        <input asp-for="Modelo" />
+        <span asp-validation-for="Modelo" style="color:red"></span>
+    </div>
+
+    <div>
+        <label>Matrícula</label><br />
+        <input asp-for="Matricula" />
+        <span asp-validation-for="Matricula" style="color:red"></span>
+    </div>
+
+    <div>
+        <label>Cliente</label><br />
+        <select asp-for="ClienteId" asp-items="Model.Clientes">
+            <option value="">-- Selecciona cliente --</option>
+        </select>
+        <span asp-validation-for="ClienteId" style="color:red"></span>
+    </div>
+
+    <br />
+    <button type="submit">Guardar</button>
+</form>
+
+<p>
+    <a asp-action="Index">Volver al listado</a>
+</p>

@@ -1,0 +1,25 @@
+﻿@model IEnumerable<WorkshopManager.Domain.Entities.Cliente>
+
+
+<h1>Clientes</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Telefono</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var cliente in Model)
+        {
+            <tr>
+            <td>@cliente.Nombre</td>
+            <td>@cliente.Telefono</td>
+            <td>@cliente.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>

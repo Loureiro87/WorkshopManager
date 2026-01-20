@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using WorkshopManager.Infrastructure.Data;
+using WorkshopManager.Infrastructure.Repositories;
+using WorkshopManager.Application.Interfaces;
+using WorkshopManager.Application.Services;
+using WorkshopManager.Domain.Interfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +16,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<WorkshopDbContext>(options =>
       options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IVehiculoRepository, VehiculoRepository>();
+builder.Services.AddScoped<IVehiculoService, VehiculoService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
