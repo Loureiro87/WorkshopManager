@@ -13,6 +13,6 @@ namespace WorkshopManager.Application.Interfaces
         Task<Vehiculo?> GetByIdAsync(int id);
         Task CreateAsync(string marca, string modelo, string matricula, int clienteId);
         Task UpdateAsync(int id, string marca, string modelo, string matricula, int clienteId);
-
+        Task DeleteAsync(int id);
     }
 }

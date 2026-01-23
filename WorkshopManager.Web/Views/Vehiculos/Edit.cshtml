@@ -1,0 +1,36 @@
+﻿@model WorkshopManager.Web.ViewModels.VehiculoEditViewModel
+
+<h1>Editar vehículo</h1>
+<div asp-validation-summary="All" style="color:red"></div>
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div>
+        <label>Marca</label><br />
+        <input asp-for="Marca" />
+        <span asp-validation-for="Marca"></span>
+    </div>
+
+    <div>
+        <label>Modelo</label><br />
+        <input asp-for="Modelo" />
+        <span asp-validation-for="Modelo"></span>
+    </div>
+
+    <div>
+        <label>Matrícula</label><br />
+        <input asp-for="Matricula" />
+        <span asp-validation-for="Matricula"></span>
+    </div>
+
+    <div>
+        <label>Cliente</label><br />
+        <select asp-for="ClienteId" asp-items="Model.Clientes"></select>
+        <span asp-validation-for="ClienteId"></span>
+    </div>
+
+    <br />
+    <button type="submit">Guardar</button>
+    <a asp-action="Index">Cancelar</a>
+</form>

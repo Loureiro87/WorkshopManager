@@ -47,5 +47,10 @@ namespace WorkshopManager.Infrastructure.Repositories
             _context.Vehiculos.Update(vehiculo);
             await _context.SaveChangesAsync();
         }
+        public async Task DeleteAsync(Vehiculo vehiculo)
+        {
+            _context.Vehiculos.Remove(vehiculo);
+            await _context.SaveChangesAsync();
+        }
     }
 }

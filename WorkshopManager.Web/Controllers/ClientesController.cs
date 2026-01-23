@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WorkshopManager.Application.Interfaces;
+using WorkshopManager.Web.ViewModels;
 
 namespace WorkshopManager.Web.Controllers
 {
@@ -12,7 +13,7 @@ namespace WorkshopManager.Web.Controllers
         {
             _clienteService = clienteService;
         }
-
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var clientes = await _clienteService.GetAllAsync();
@@ -24,10 +25,75 @@ namespace WorkshopManager.Web.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(string nombre, string? telefono, string? email) 
+        public async Task<IActionResult> Create(ClienteCreateViewModel vm) 
         {
-            await _clienteService.CreateAsync(nombre, telefono, email);
+            if(!ModelState.IsValid)
+            {
+                return View(vm);
+            }
 
+            try
+            {
+                await _clienteService.CreateAsync(
+                    vm.Nombre,
+                    vm.Telefono,
+                    vm.Email
+                    );
+            }
+            catch (InvalidOperationException ex)
+            {
+                ModelState.AddModelError(string.Empty,ex.Message);
+                return View(vm);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var cliente = await _clienteService.GetByIdAsync(id);
+
+            if (cliente == null ) { return NotFound(); }
+            var vm = new ClienteEditViewModel
+            {
+                Id = cliente.Id,
+                Nombre = cliente.Nombre,
+                Telefono = cliente.Telefono,
+                Email = cliente.Email,
+
+            };
+            return View(vm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(ClienteEditViewModel vm) 
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+            await _clienteService.UpdateAsync(
+                vm.Id,
+                vm.Nombre,
+                vm.Telefono,
+                vm.Email
+                );
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var cliente = await _clienteService.GetByIdAsync(id);
+
+            if(cliente == null)
+            {
+                return NotFound();
+            }
+            return View(cliente);
+        }
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteCliente(int id)
+        {
+             await _clienteService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }

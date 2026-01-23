@@ -12,7 +12,7 @@ namespace WorkshopManager.Domain.Interfaces
         Task AddAsync(Vehiculo vehiculo);
         Task<bool> ExistsByMatriculaAsync(string matricula);
         Task UpdateAsync(Vehiculo vehiculo);
-
+        Task DeleteAsync(Vehiculo vehiculo);
     }
 
 }

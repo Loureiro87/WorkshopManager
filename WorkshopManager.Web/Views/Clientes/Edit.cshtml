@@ -1,0 +1,30 @@
+﻿@model WorkshopManager.Web.ViewModels.ClienteEditViewModel
+
+<h1>Editar Cliente</h1>
+<div asp-validation-summary="All" style="color:red"></div>
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div>
+        <label>Nombre</label><br />
+        <input asp-for="Nombre" />
+        <span asp-validation-for="Nombre"></span>
+    </div>
+
+    <div>
+        <label>Telefono</label><br />
+        <input asp-for="Telefono" />
+        <span asp-validation-for="Telefono"></span>
+    </div>
+
+    <div>
+        <label>Email</label><br />
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <br />
+    <button type="submit">Guardar</button>
+    <a asp-action="Index">Cancelar</a>
+</form>

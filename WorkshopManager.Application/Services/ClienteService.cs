@@ -21,6 +21,10 @@ namespace WorkshopManager.Application.Services
         {
             return await _clienteRepository.GetAllAsync();
         }
+        public async Task<Cliente?> GetByIdAsync(int id)
+        {
+            return await _clienteRepository.GetByIdAsync(id);
+        }
         public async Task CreateAsync(string nombre, string? telefono, string? email)
         {
             var cliente = new Cliente
@@ -31,6 +35,29 @@ namespace WorkshopManager.Application.Services
             };
 
             await _clienteRepository.AddAsync(cliente);
+        }
+        public async Task UpdateAsync(int id, string nombre, string? telefono, string? email)
+        {
+            var cliente = await _clienteRepository.GetByIdAsync(id);
+
+            if (cliente == null)
+            {
+                throw new InvalidOperationException("Cliente no encontrado");
+            }
+            cliente.Nombre = nombre;
+            cliente.Telefono = telefono;
+            cliente.Email = email;
+
+            await _clienteRepository.UpdateAsync(cliente);
+        }
+        public async Task DeleteAsync(int id)
+        {
+            var cliente = await _clienteRepository.GetByIdAsync(id);
+            if (cliente == null)
+            {
+                throw new InvalidOperationException("Cliente no encontrado");
+            }
+            await _clienteRepository.DeleteAsync(cliente);
         }
     }
 }

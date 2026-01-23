@@ -1,14 +1,22 @@
 ﻿@model IEnumerable<WorkshopManager.Domain.Entities.Cliente>
 
+@{
+    ViewData["Title"] = "Clientes";
+}
 
 <h1>Clientes</h1>
 
-<table>
+<p>
+    <button asp-action="Create" asp-controller="Clientes">Nuevo Cliente</button>
+</p>
+
+<table border="1" cellpadding="5">
     <thead>
         <tr>
             <th>Nombre</th>
             <th>Telefono</th>
             <th>Email</th>
+            <th>Acciones</th>
         </tr>
     </thead>
 
@@ -16,9 +24,13 @@
         @foreach (var cliente in Model)
         {
             <tr>
-            <td>@cliente.Nombre</td>
-            <td>@cliente.Telefono</td>
-            <td>@cliente.Email</td>
+                <td>@cliente.Nombre</td>
+                <td>@cliente.Telefono</td>
+                <td>@cliente.Email</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@cliente.Id">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@cliente.Id">Eliminar</a>
+                </td>
             </tr>
         }
     </tbody>

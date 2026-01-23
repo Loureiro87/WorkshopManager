@@ -17,6 +17,7 @@
             <th>Modelo</th>
             <th>Matrícula</th>
             <th>Cliente</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -27,6 +28,9 @@
                 <td>@vehiculo.Modelo</td>
                 <td>@vehiculo.Matricula</td>
                 <td>@vehiculo.Cliente?.Nombre</td>
+                <td><a asp-action="Edit" asp-route-id="@vehiculo.Id">Editar</a> | 
+                    <a asp-action="Delete" asp-route-id="@vehiculo.Id">Eliminar</a>
+                </td>
             </tr>
         }
     </tbody>

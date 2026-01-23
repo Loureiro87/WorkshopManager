@@ -54,8 +54,16 @@ namespace WorkshopManager.Application.Services
             vehiculo.Matricula  = matricula;
             vehiculo.ClienteId = clienteId;
 
-        await _vehiculoRepository.UpdateAsync(vehiculo);
-
+            await _vehiculoRepository.UpdateAsync(vehiculo);
+        }
+        public async Task DeleteAsync(int id)
+        {
+            var vehiculo = await _vehiculoRepository.GetByIdAsync(id);
+            if (vehiculo == null)
+            {
+                throw new InvalidOperationException("Vehiculo no encontrado");
+            }
+            await _vehiculoRepository.DeleteAsync(vehiculo);
         }
     }
 }

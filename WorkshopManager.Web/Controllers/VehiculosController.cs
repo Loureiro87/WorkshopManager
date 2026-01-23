@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using WorkshopManager.Application.Interfaces;
 using WorkshopManager.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using WorkshopManager.Domain.Entities;
 
 namespace WorkshopManager.Web.Controllers
 {
@@ -20,7 +21,6 @@ namespace WorkshopManager.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var cliente = await _clienteService.GetAllAsync();
             var vm = new VehiculoCreateViewModel();
             await LoadClientesAsync(vm);
 
@@ -53,6 +53,7 @@ namespace WorkshopManager.Web.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var vehiculos = await _vehiculoService.GetAllAsync();
@@ -65,7 +66,8 @@ namespace WorkshopManager.Web.Controllers
             vm.Clientes = clientes.Select(c => new SelectListItem
             {
                 Value = c.Id.ToString(),
-                Text = c.Nombre
+                Text = c.Nombre,
+                Selected = vm.ClienteId.HasValue && c.Id == vm.ClienteId.Value
             }).ToList();
         }
         [HttpGet]
@@ -107,5 +109,22 @@ namespace WorkshopManager.Web.Controllers
             );
             return RedirectToAction(nameof(Index));
         }
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var vehiculo = await _vehiculoService.GetByIdAsync(id);
+            if (vehiculo == null)
+            {
+                return NotFound();
+            }
+            return View(vehiculo);
+        }
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _vehiculoService.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

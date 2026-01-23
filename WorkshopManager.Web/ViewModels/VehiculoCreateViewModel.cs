@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using WorkshopManager.Web.ViewModels;
 
 namespace WorkshopManager.Web.ViewModels
 {
