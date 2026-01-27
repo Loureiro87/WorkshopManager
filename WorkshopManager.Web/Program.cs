@@ -15,11 +15,18 @@ builder.Services.AddControllersWithViews();
 //Add service to the EF and BBDD
 builder.Services.AddDbContext<WorkshopDbContext>(options =>
       options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+//service to Cliente
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
+
+//Service to Vehiculo
 builder.Services.AddScoped<IVehiculoRepository, VehiculoRepository>();
 builder.Services.AddScoped<IVehiculoService, VehiculoService>();
+
+//service to Citas
+builder.Services.AddScoped<ICitaRepository, CitaRepository>();
+builder.Services.AddScoped<ICitaService, CitaService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

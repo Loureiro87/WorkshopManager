@@ -123,6 +123,7 @@ namespace WorkshopManager.Web.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _vehiculoService.DeleteAsync(id);
+            TempData["Success"] = "Vehiculo eliminado correctamente";
             return RedirectToAction(nameof(Index));
         }
 

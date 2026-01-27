@@ -12,7 +12,7 @@ namespace WorkshopManager.Infrastructure.Data
 
         public DbSet<Cliente> Clientes => Set<Cliente>();
         public DbSet<Vehiculo> Vehiculos => Set<Vehiculo>();
-
+        public DbSet<Cita> Citas => Set<Cita>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -45,6 +45,26 @@ namespace WorkshopManager.Infrastructure.Data
                 entity.HasOne(v => v.Cliente)
                       .WithMany(c => c.Vehiculos)
                       .HasForeignKey(v => v.ClienteId);
+            });
+            modelBuilder.Entity<Cita>(entity =>
+            {
+                entity.HasKey(c => c.Id);
+
+                entity.HasOne(c =>c.Cliente)
+                      .WithMany()
+                      .HasForeignKey(c => c.ClienteId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(c => c.Vehiculo)
+                      .WithMany()
+                      .HasForeignKey(c=> c.VehiculoId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.Property(c => c.Observaciones)
+                      .HasMaxLength(1000);
+
+                entity.Property(c => c.Estado)
+                      .IsRequired();
             });
         }
     }

@@ -30,6 +30,12 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @if(TempData["Success"] != null)
+            {
+                <div style="color: green; margin-bottom:10px">
+                    @TempData["Success"]
+                </div>
+            }
             @RenderBody()
         </main>
     </div>

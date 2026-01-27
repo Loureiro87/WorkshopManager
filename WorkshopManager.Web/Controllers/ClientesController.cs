@@ -45,7 +45,7 @@ namespace WorkshopManager.Web.Controllers
                 ModelState.AddModelError(string.Empty,ex.Message);
                 return View(vm);
             }
-
+            TempData["Success"] = "Cliente creado correctamente";
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
@@ -77,6 +77,7 @@ namespace WorkshopManager.Web.Controllers
                 vm.Telefono,
                 vm.Email
                 );
+            TempData["Success"] = "Cliente actualizado correctamente";
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
@@ -94,6 +95,7 @@ namespace WorkshopManager.Web.Controllers
         public async Task<IActionResult> DeleteCliente(int id)
         {
              await _clienteService.DeleteAsync(id);
+            TempData["Success"] = "Cliente eliminado correctamente";
             return RedirectToAction(nameof(Index));
         }
     }
