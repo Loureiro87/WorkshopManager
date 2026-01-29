@@ -1,5 +1,5 @@
 # WorkshopManager
-# WorkshopManager
+
 
 Aplicación web desarrollada con **ASP.NET Core MVC** para la gestión de un taller mecánico pequeño (clientes, vehículos, citas y órdenes de trabajo).
 
@@ -42,9 +42,14 @@ El proyecto sigue principios de **Clean Architecture** y separación de responsa
 
 ---
 
-## 🛠️ Estado del proyecto
+## 🛠️ Estado actual
 
-🔧 En desarrollo — fase inicial (estructura base y arquitectura).
+Actualmente el proyecto incluye:
+
+- CRUD completo de Clientes
+- CRUD completo de Vehículos
+- Gestión de Citas con estados y validaciones
+- Arquitectura en capas con servicios y repositorios
 
 ---
 
@@ -57,3 +62,20 @@ El proyecto utiliza Git con un historial de commits claros y descriptivos, sigui
 ## 📄 Licencia
 
 Proyecto de uso educativo y demostrativo.
+
+## ▶️ Cómo ejecutar el proyecto
+
+1. Clonar el repositorio
+2. Configurar la cadena de conexión a SQL Server
+3. Ejecutar las migraciones con Entity Framework
+4. Ejecutar el proyecto desde Visual Studio
+
+---
+
+## 📚 Aprendizajes clave
+
+- Aplicación de Clean Architecture en ASP.NET Core MVC
+- Separación clara entre dominio, aplicación y UI
+- Uso de Entity Framework Core con repositorios
+- Manejo de validaciones y flujos MVC reales
+- Uso profesional de Git y commits incrementales
