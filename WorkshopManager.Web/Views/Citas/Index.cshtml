@@ -1,0 +1,40 @@
+﻿@model IEnumerable<WorkshopManager.Domain.Entities.Cita>;
+
+@{
+    ViewData["Title"] = "Citas";
+}
+<h1>Listado de Citas</h1>
+
+<hr />
+
+<p>
+    <button asp-action="Create" asp-controller="Clientes">Nuevo Cliente</button>
+</p>
+
+<table border="1" cellpadding="5">
+    <thead>
+        <th>Nombre</th>
+        <th>Vehiculo</th>
+        <th>Fecha de Entrega</th>
+        <th>Fecha Estimada Fin</th>
+        <th>Observaciones</th>
+        <th>Estado</th>
+    </thead>
+    <tbody>
+        @foreach(var cita in Model)
+        {
+          <tr>
+              <td>@cita.Cliente.Nombre</td>
+              <td>@cita.Vehiculo.Modelo </td>
+              <td>@cita.FechaEntrega</td>
+              <td>@cita.FechaEstimadaFin</td>
+              <td>@cita.Observaciones</td>
+              <td>@cita.Estado</td>
+              <td>
+                  <a asp-action="Edit" asp-route-id="@cita.Id">Editar</a>
+                  <a asp-action="Delete" asp-all-route-id="@cita.Id">Eliminar</a>
+              </td>
+          </tr>
+        }
+    </tbody>
+</table>

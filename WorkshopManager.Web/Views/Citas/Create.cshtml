@@ -1,0 +1,80 @@
+﻿@model WorkshopManager.Web.ViewModels.CitaCreateViewModel
+
+@{
+    ViewData["Title"] = "Nueva cita";
+}
+
+<h2 class="mb-4">📅 Nueva cita</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <form asp-action="Create" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <!-- Cliente -->
+            <div class="mb-3">
+                <label asp-for="ClienteId" class="form-label"></label>
+                <select asp-for="ClienteId"
+                        asp-items="Model.Clientes"
+                        class="form-select">
+                    <option value="">-- Selecciona un cliente --</option>
+                </select>
+                <span asp-validation-for="ClienteId" class="text-danger"></span>
+            </div>
+
+            <!-- Vehículo -->
+            <div class="mb-3">
+                <label asp-for="VehiculoId" class="form-label"></label>
+                <select asp-for="VehiculoId"
+                        asp-items="Model.Vehiculos"
+                        class="form-select">
+                    <option value="">-- Selecciona un vehículo --</option>
+                </select>
+                <span asp-validation-for="VehiculoId" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <!-- Fecha entrega -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="FechaEntrega" class="form-label"></label>
+                    <input asp-for="FechaEntrega"
+                           type="date"
+                           class="form-control" />
+                    <span asp-validation-for="FechaEntrega" class="text-danger"></span>
+                </div>
+
+                <!-- Fecha estimada -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="FechaEstimadaFin" class="form-label"></label>
+                    <input asp-for="FechaEstimadaFin"
+                           type="date"
+                           class="form-control" />
+                    <span asp-validation-for="FechaEstimadaFin" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Observaciones -->
+            <div class="mb-3">
+                <label asp-for="Observaciones" class="form-label"></label>
+                <textarea asp-for="Observaciones"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Describe el problema o las indicaciones del cliente"></textarea>
+            </div>
+
+            <!-- Botones -->
+            <div class="d-flex justify-content-end gap-2">
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    Guardar cita
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
