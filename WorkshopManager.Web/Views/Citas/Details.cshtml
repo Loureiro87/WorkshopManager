@@ -1,0 +1,58 @@
+﻿@model WorkshopManager.Web.ViewModels.CitaDetalleViewModel
+
+@{
+    ViewData["Title"] = "Detalle de cita";
+}
+
+<h2 class="mb-4">📄 Detalle de la cita</h2>
+
+<div class="card mb-3">
+    <div class="card-header">
+        Estado:
+        <span class="badge bg-secondary">
+            @Model.Estado
+        </span>
+    </div>
+
+    <div class="card-body">
+
+        <h5>Cliente</h5>
+        <p>
+            <strong>@Model.ClienteNombre</strong><br />
+            📞 @Model.ClienteTelefono<br />
+            ✉️ @Model.ClienteEmail
+        </p>
+
+        <h5>Vehículo</h5>
+        <p>
+            @Model.VehiculoDescripcion<br />
+            Matrícula: <strong>@Model.VehiculoMatricula</strong>
+        </p>
+
+        <h5>Cita</h5>
+        <p>
+            Entrega: @Model.FechaEntrega.ToString("dd/MM/yyyy")<br />
+            Estimación fin:
+            @(Model.FechaEstimadaFin?.ToString("dd/MM/yyyy") ?? "No indicada")
+        </p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Observaciones))
+        {
+            <h5>Observaciones</h5>
+            <p>@Model.Observaciones</p>
+        }
+
+    </div>
+
+    <div class="card-footer d-flex justify-content-end gap-2">
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Volver
+        </a>
+
+        <a asp-action="ChangeEstado"
+           asp-route-id="@Model.Id"
+           class="btn btn-outline-primary">
+            Cambiar estado
+        </a>
+    </div>
+</div>

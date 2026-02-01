@@ -14,7 +14,8 @@ namespace WorkshopManager.Application.Interfaces
         Task CreateAsync(int clienteId, int vehiculoId
             ,DateTime fechaEntrega
             ,DateTime? fechaEstimadaFin
-            ,string? observacion);
+            ,string? observaciones);
+        Task<Cita?> GetByIdAsync(int id);
         Task ChangeEstadoAsync(int citaId, CitaEstado nuevoEstado);
         Task UpdateAsync(int id, int clienteId, int vehiculoId, DateTime fechaEntrega
             ,DateTime? fechaEstimadaFin, string? observaciones);
