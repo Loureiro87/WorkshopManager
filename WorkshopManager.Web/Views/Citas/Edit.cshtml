@@ -1,0 +1,50 @@
+﻿@model WorkshopManager.Web.ViewModels.CitaEditViewModel
+
+@{
+    ViewData["Title"] = "Editar cita";
+}
+
+<h2>✏️ Editar cita</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="ClienteId" class="form-label"></label>
+        <select asp-for="ClienteId" asp-items="Model.Clientes" class="form-select">
+            <option value="">-- Selecciona cliente --</option>
+        </select>
+        <span asp-validation-for="ClienteId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="VehiculoId" class="form-label"></label>
+        <select asp-for="VehiculoId" asp-items="Model.Vehiculos" class="form-select">
+            <option value="">-- Selecciona vehículo --</option>
+        </select>
+        <span asp-validation-for="VehiculoId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FechaEntrega" class="form-label"></label>
+        <input asp-for="FechaEntrega" class="form-control" type="date" />
+        <span asp-validation-for="FechaEntrega" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FechaEstimadaFin" class="form-label"></label>
+        <input asp-for="FechaEstimadaFin" class="form-control" type="date" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Observaciones" class="form-label"></label>
+        <textarea asp-for="Observaciones" class="form-control"></textarea>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2">
+        <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    </div>
+</form>

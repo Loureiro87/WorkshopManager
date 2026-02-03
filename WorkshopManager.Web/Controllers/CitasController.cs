@@ -77,6 +77,59 @@ namespace WorkshopManager.Web.Controllers
             TempData["Success"] = "Cita creada correctamente";
             return RedirectToAction(nameof(Index));
         }
+        //-------------------------
+        //Editar
+        //-------------------------
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var cita = await _citaService.GetByIdAsync(id);
+            if(cita == null)
+            {
+                return NotFound();
+            }
+            var vm = new CitaEditViewModel
+            {
+                Id = cita.Id,
+                ClienteId = cita.ClienteId,
+                VehiculoId = cita.VehiculoId,
+                FechaEntrega = cita.FechaEntrega,
+                FechaEstimadaFin = cita.FechaEstimadaFin,
+                Observaciones = cita.Observaciones,
+            };
+            await LoadDropdownsAsync(vm);
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(CitaEditViewModel vm)
+        {
+            if (!ModelState.IsValid )
+            {
+                await LoadDropdownsAsync(vm);
+                return View(vm);
+            }
+            try
+            {
+                await _citaService.UpdateAsync(
+                    vm.Id,
+                    vm.ClienteId!.Value,
+                    vm.VehiculoId!.Value,
+                    vm.FechaEntrega,
+                    vm.FechaEstimadaFin,
+                    vm.Observaciones
+                );
+            }
+            catch(InvalidOperationException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                await LoadDropdownsAsync(vm);
+                return View(vm);
+            }
+            TempData["Success"] = "Cita actualizada correctamente";
+            return RedirectToAction(nameof(Index));
+        }
+
 
         // -------------------------
         // DETALLE
@@ -182,7 +235,7 @@ namespace WorkshopManager.Web.Controllers
         // MÉTODOS PRIVADOS
         // -------------------------
 
-        private async Task LoadDropdownsAsync(CitaCreateViewModel vm)
+        private async Task LoadDropdownsAsync(ICitaSelectableViewModel vm)
         {
             var clientes = await _clienteService.GetAllAsync();
             var vehiculos = await _vehiculoService.GetAllAsync();
