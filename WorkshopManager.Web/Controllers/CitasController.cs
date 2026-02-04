@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 using WorkshopManager.Application.Interfaces;
 using WorkshopManager.Domain.Enums;
 using WorkshopManager.Web.ViewModels;
@@ -84,7 +86,7 @@ namespace WorkshopManager.Web.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var cita = await _citaService.GetByIdAsync(id);
-            if(cita == null)
+            if (cita == null)
             {
                 return NotFound();
             }
@@ -104,7 +106,7 @@ namespace WorkshopManager.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(CitaEditViewModel vm)
         {
-            if (!ModelState.IsValid )
+            if (!ModelState.IsValid)
             {
                 await LoadDropdownsAsync(vm);
                 return View(vm);
@@ -120,7 +122,7 @@ namespace WorkshopManager.Web.Controllers
                     vm.Observaciones
                 );
             }
-            catch(InvalidOperationException ex)
+            catch (InvalidOperationException ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
                 await LoadDropdownsAsync(vm);
@@ -175,7 +177,7 @@ namespace WorkshopManager.Web.Controllers
 
             var vm = new CitaEstadoViewModel
             {
-                CitaId = cita.Id,
+                Id = cita.Id,
                 NuevoEstado = cita.Estado,
                 Estados = Enum.GetValues(typeof(CitaEstado))
                               .Cast<CitaEstado>()
@@ -183,7 +185,8 @@ namespace WorkshopManager.Web.Controllers
                               {
                                   Value = e.ToString(),
                                   Text = e.ToString()
-                              }).ToList()
+                              }).ToList(),
+                EstadoActual = cita.Estado
             };
 
             return View(vm);
@@ -208,7 +211,7 @@ namespace WorkshopManager.Web.Controllers
             try
             {
                 await _citaService.ChangeEstadoAsync(
-                    vm.CitaId,
+                    vm.Id,
                     vm.NuevoEstado!.Value
                 );
             }
@@ -228,6 +231,48 @@ namespace WorkshopManager.Web.Controllers
             }
 
             TempData["Success"] = "Estado de la cita actualizado correctamente";
+            return RedirectToAction(nameof(Index));
+        }
+        // -------------------------
+        // ELIMINAR CITA
+        // -------------------------
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var cita = await _citaService.GetByIdAsync(id);
+            if (cita == null)
+            {
+                return NotFound();
+            }
+            var vm = new CitaDetalleViewModel { 
+                    Id = cita.Id,
+                    ClienteNombre = cita.Cliente.Nombre!,
+                    ClienteTelefono = cita.Cliente.Telefono!,
+                    ClienteEmail = cita.Cliente.Email!,
+                    VehiculoDescripcion = $"{cita.Vehiculo.Marca} {cita.Vehiculo.Modelo}",
+                    VehiculoMatricula = cita.Vehiculo.Matricula!,
+                    FechaEntrega = cita.FechaEntrega,
+                    FechaEstimadaFin = cita.FechaEstimadaFin,
+                    Observaciones = cita.Observaciones,
+                    Estado = cita.Estado
+                };
+            return View(vm);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteCita(int id)
+        {
+            try
+            {
+                await _citaService.DeleteAsync(id);
+            }
+            catch(InvalidOperationException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction(nameof(Delete), new { id });
+            }
+
+            TempData["Success"] = "La cita se elimino correctamente";
             return RedirectToAction(nameof(Index));
         }
 

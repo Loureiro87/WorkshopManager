@@ -1,0 +1,46 @@
+﻿@model WorkshopManager.Web.ViewModels.CitaDetalleViewModel
+
+@{
+    ViewData["Title"] = "Eliminar cita";
+}
+
+<h2 class="text-danger">🗑️ Eliminar cita</h2>
+
+<div class="alert alert-warning">
+    <strong>Atención:</strong> Esta acción no se puede deshacer.
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+
+        <h5>Cliente</h5>
+        <p>
+            <strong>@Model.ClienteNombre</strong><br />
+            📞 @Model.ClienteTelefono<br />
+            ✉️ @Model.ClienteEmail
+        </p>
+
+        <h5>Vehículo</h5>
+        <p>
+            @Model.VehiculoDescripcion<br />
+            Matrícula: <strong>@Model.VehiculoMatricula</strong>
+        </p>
+
+        <h5>Estado actual</h5>
+        <span class="badge bg-secondary">@Model.Estado</span>
+
+    </div>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="d-flex justify-content-end gap-2">
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Cancelar
+        </a>
+        <button type="submit" class="btn btn-danger">
+            Eliminar definitivamente
+        </button>
+    </div>
+</form>

@@ -59,7 +59,7 @@ namespace WorkshopManager.Web.Controllers
                 Id = cliente.Id,
                 Nombre = cliente.Nombre,
                 Telefono = cliente.Telefono,
-                Email = cliente.Email,
+                Email = cliente.Email!,
 
             };
             return View(vm);

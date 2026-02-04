@@ -1,0 +1,40 @@
+﻿@model WorkshopManager.Web.ViewModels.CitaEstadoViewModel
+
+@{
+    ViewData["Title"] = "Cambiar estado de la cita";
+}
+
+<h2>🔄 Cambiar estado de la cita</h2>
+
+<div class="alert alert-info">
+    <strong>Estado actual:</strong>
+    <span class="badge bg-secondary">@Model.EstadoActual</span>
+</div>
+
+<form asp-action="ChangeEstado" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="NuevoEstado" class="form-label"></label>
+        <select asp-for="NuevoEstado"
+                asp-items="Model.Estados"
+                class="form-select">
+            <option value="">-- Selecciona nuevo estado --</option>
+        </select>
+        <span asp-validation-for="NuevoEstado" class="text-danger"></span>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2">
+        <a asp-action="Details"
+           asp-route-id="@Model.Id"
+           class="btn btn-outline-secondary">
+            Cancelar
+        </a>
+
+        <button type="submit" class="btn btn-primary">
+            Cambiar estado
+        </button>
+    </div>
+</form>
