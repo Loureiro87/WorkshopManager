@@ -19,5 +19,6 @@ namespace WorkshopManager.Domain.Entities
         public string? Observaciones { get; set; }
         public CitaEstado Estado { get; set; }
 
+        public ICollection<CitaPieza> CitaPiezas { get; set; } = new List<CitaPieza>();
     }
 }

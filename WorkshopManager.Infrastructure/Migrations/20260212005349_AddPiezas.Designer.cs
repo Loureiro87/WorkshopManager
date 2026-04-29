@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WorkshopManager.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using WorkshopManager.Infrastructure.Data;
 namespace WorkshopManager.Infrastructure.Migrations
 {
     [DbContext(typeof(WorkshopDbContext))]
-    partial class WorkshopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260212005349_AddPiezas")]
+    partial class AddPiezas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,17 +115,15 @@ namespace WorkshopManager.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Activa")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<decimal>("Precio")
+                    b.Property<string>("Precio")
+                        .IsRequired()
                         .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Referencia")
                         .IsRequired()
@@ -134,10 +135,7 @@ namespace WorkshopManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Referencia")
-                        .IsUnique();
-
-                    b.ToTable("Piezas");
+                    b.ToTable("Pieza");
                 });
 
             modelBuilder.Entity("WorkshopManager.Domain.Entities.Vehiculo", b =>

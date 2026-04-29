@@ -13,6 +13,9 @@ namespace WorkshopManager.Infrastructure.Data
         public DbSet<Cliente> Clientes => Set<Cliente>();
         public DbSet<Vehiculo> Vehiculos => Set<Vehiculo>();
         public DbSet<Cita> Citas => Set<Cita>();
+        public DbSet<Pieza> Piezas => Set<Pieza>();
+        public DbSet<CitaPieza> CitaPiezas => Set<CitaPieza>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -50,14 +53,14 @@ namespace WorkshopManager.Infrastructure.Data
             {
                 entity.HasKey(c => c.Id);
 
-                entity.HasOne(c =>c.Cliente)
+                entity.HasOne(c => c.Cliente)
                       .WithMany()
                       .HasForeignKey(c => c.ClienteId)
                       .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(c => c.Vehiculo)
                       .WithMany()
-                      .HasForeignKey(c=> c.VehiculoId)
+                      .HasForeignKey(c => c.VehiculoId)
                       .OnDelete(DeleteBehavior.Restrict);
 
                 entity.Property(c => c.Observaciones)
@@ -65,6 +68,66 @@ namespace WorkshopManager.Infrastructure.Data
 
                 entity.Property(c => c.Estado)
                       .IsRequired();
+            });
+
+            modelBuilder.Entity<CitaPieza>(entity =>
+            {
+                entity.HasKey(cp => new { cp.CitaId, cp.PiezaId });
+
+                entity.Property(cp => cp.PrecioUnitario)
+                      .HasPrecision(18, 2);
+
+                entity.HasOne(cp => cp.Cita)
+                      .WithMany(c => c.CitaPiezas)
+                      .HasForeignKey(cp => cp.CitaId);
+
+                entity.HasOne(cp => cp.Pieza)
+                      .WithMany(p => p.CitaPiezas)
+                      .HasForeignKey(cp => cp.PiezaId);
+            });
+            modelBuilder.Entity<Pieza>(entity =>
+            {
+                entity.HasKey(p => p.Id);
+
+                entity.Property(p => p.Nombre)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(p => p.Referencia)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.HasIndex(p => p.Referencia)
+                      .IsUnique();   // 🔥 Índice único
+
+                entity.Property(p => p.Precio)
+                      .HasPrecision(18, 2);
+
+                entity.Property(p => p.Stock)
+                      .IsRequired();
+
+                entity.Property(p => p.Activa)
+                      .IsRequired();
+            });
+            modelBuilder.Entity<CitaPieza>(entity =>
+            {
+                entity.HasKey(cp => new { cp.CitaId, cp.PiezaId });
+
+                entity.Property(cp => cp.PrecioUnitario)
+                .HasPrecision(18, 2);
+
+                entity.Property(cp => cp.Cantidad)
+                .IsRequired();
+
+                entity.HasOne(cp => cp.Cita)
+                      .WithMany(c => c.CitaPiezas)
+                      .HasForeignKey(cp => cp.CitaId )
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(cp => cp.Pieza)
+                      .WithMany(c => c.CitaPiezas)
+                      .HasForeignKey(cp => cp.PiezaId)
+                      .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }

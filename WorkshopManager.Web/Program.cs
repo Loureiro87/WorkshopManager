@@ -27,6 +27,10 @@ builder.Services.AddScoped<IVehiculoService, VehiculoService>();
 builder.Services.AddScoped<ICitaRepository, CitaRepository>();
 builder.Services.AddScoped<ICitaService, CitaService>();
 
+//Service to piezas
+builder.Services.AddScoped<IPiezaRepository, PiezaRepository>();
+builder.Services.AddScoped<IPiezaService, PiezaService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
